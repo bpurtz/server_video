@@ -6,6 +6,11 @@ const mongo = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const http = require('http');
 
+//get the routes
+const users = require('./routes/api/users');
+const profile = require('./routes/api/profile');
+const posts = require('./routes/api/posts');
+
 const app = express();
 
 //DB config
@@ -18,6 +23,12 @@ mongoose
   .catch((err)=>console.log(err));
 
 app.get('/', (req, res) => res.send('hello')); 
+
+// Use routes
+app.use('/api/users', users);
+app.use('/api/profile', profile);
+app.use('/api/posts', posts);
+
 
 const port = process.env.PORT || 5000;
 
