@@ -3,9 +3,19 @@ const express = require("express");
 const util = require('util');
 const fs = require('fs');
 const mongo = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 const http = require('http');
 
 const app = express();
+
+//DB config
+const db = require('./config/keys').mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(db)
+  .then(()=>console.log('mongodb connected'))
+  .catch((err)=>console.log(err));
 
 app.get('/', (req, res) => res.send('hello')); 
 
