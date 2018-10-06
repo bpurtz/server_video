@@ -1,4 +1,5 @@
 const path = require('path');
+const url = require('url');
 const express = require("express");
 const util = require('util');
 const fs = require('fs');
@@ -22,7 +23,14 @@ mongoose
   .then(()=>console.log('mongodb connected'))
   .catch((err)=>console.log(err));
 
-app.get('/', (req, res) => res.send('hello')); 
+app.get('*', (req, res) => {
+	var q = url.parse(req.url, true);
+  var filename = q.query.name;
+	res.write('' + filename);
+	res.write(req.get('host'));
+	res.write('hello');
+	res.end();
+}); 
 
 // Use routes
 app.use('/api/users', users);
@@ -32,4 +40,4 @@ app.use('/api/posts', posts);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server running on port ${port}`))
+app.listen(port, () => console.log(`Server running on port ${port}`));
